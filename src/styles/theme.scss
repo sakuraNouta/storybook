@@ -1,0 +1,34 @@
+@import 'red-theme';
+@import 'blue-theme';
+
+//定义映射集合
+$themes: (
+  default-theme: $blue-theme,
+  red-theme: $red-theme
+);
+
+@mixin theme($kv) {
+  @each $themename, $theme in $themes {
+    [data-theme='#{$themename}'] & {
+      @each $name, $value in $kv {
+        #{$name}: map-get($theme, $value);
+      }
+    }
+  }
+}
+
+@mixin base-background() {
+  @include theme(
+    (
+      background-color: base-color
+    )
+  );
+}
+
+@mixin base-font() {
+  @include theme(
+    (
+      font-size: base-font-size
+    )
+  );
+}

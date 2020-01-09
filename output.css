@@ -1,0 +1,11 @@
+a {
+  color: fff;
+}
+[data-theme=default-theme] a {
+  background-color: blue;
+}
+[data-theme=red-theme] a {
+  background-color: red;
+}
+
+/*# sourceMappingURL=output.css.map */
