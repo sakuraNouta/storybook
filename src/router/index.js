@@ -18,6 +18,17 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () =>
       import(/* webpackChunkName: "about" */ '../views/About.vue')
+  },
+  {
+    path: '/excel',
+    name: 'excel',
+    component: () =>
+      import(/* webpackChunkName: "excel" */ '../views/upload-excel')
+  },
+  {
+    path: '/form',
+    component: () =>
+      import(/* webpackChunkName: "form" */ '../views/dynamic-form/demo')
   }
 ];
 
