@@ -21,7 +21,6 @@ export default {
       // this.$set(this.dataObj, 'text', 'a text');
       this.dataObj = { text: 'a text' };
 
-
       // 1. 直接赋值
       // this.foo.bar.a = 'change a';
       // this.foo.bar.b = 'bbbbbb';

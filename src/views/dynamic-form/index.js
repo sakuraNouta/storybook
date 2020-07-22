@@ -2,10 +2,10 @@ import FormInput from './components/FormInput';
 import FormSelect from './components/FormSelect';
 import FormRadio from './components/FormRadio';
 
-const renderProxy = f => {
+const renderProxy = (f) => {
   const collector = [];
-  return function(createElement) {
-    const h = function(...args) {
+  return function (createElement) {
+    const h = function (...args) {
       collector.push({ tag: args[0], data: args[1], children: args[2] });
 
       if (args[1].class === 'dynamic-form') {
@@ -36,7 +36,7 @@ const instance = {
       get() {
         return {
           ...this.dsl,
-          children: this.dsl.children.map(item => ({ value: '', ...item }))
+          children: this.dsl.children.map((item) => ({ value: '', ...item }))
         };
       },
       set(v) {
@@ -46,12 +46,12 @@ const instance = {
   },
 
   render(h) {
-    const _tag = type => `form-${type}`;
+    const _tag = (type) => `form-${type}`;
 
-    const _data = data => {
+    const _data = (data) => {
       const { value, label, options } = data;
 
-      const sync = v => {
+      const sync = (v) => {
         data.value = v;
         this._dsl = this._dsl;
       };
@@ -65,7 +65,7 @@ const instance = {
       };
     };
 
-    const parse = function(item) {
+    const parse = function (item) {
       return h(_tag(item.type), _data(item));
     };
 

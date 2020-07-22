@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CommonTable Render 1`] = `
+<div class="common-table">
+  <div class="common-table__header">
+    <div class="common-table__search">
+      <el-input size="small" placeholder="搜索租户名称"><i slot="suffix" class="el-input__icon el-icon-search"></i></el-input>
+    </div>
+  </div>
+  <div class="common-table__content">
+    <el-table data="[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]">
+      <el-table-column label="租户名" prop="name"></el-table-column>
+      <el-table-column label="邮箱" prop="email"></el-table-column>
+      <el-table-column label="联系方式" prop="telephone"></el-table-column>
+    </el-table>
+  </div>
+  <div class="common-table__footer">
+    <el-pagination small="" layout="prev, pager, next" total="100" page-size="10" current-page="1"></el-pagination>
+  </div>
+</div>
+`;

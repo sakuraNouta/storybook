@@ -1,36 +1,52 @@
 import Vue from 'vue';
 import App from './App.vue';
-import router from './router';
+import { routes } from './router';
 import store from './store';
 
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 
 import dialog from './components/Dialog';
+import VueRouter from 'vue-router';
+import './public-path';
+
 Vue.prototype.$dialog = dialog;
 
 Vue.use(ElementUI);
 console.log(Vue.prototype);
 
-let vm = new Vue({
-  router,
-  store,
-  render: h => h(App)
-});
-console.log(vm);
+let router = null;
+let instance = null;
 
-const handler = {
-  get: function(target, key) {
-    if (typeof target[key] === 'function') {
-      return function(...args) {
-        console.log(args);
-        return target[key](...args);
-      };
-    }
-    return target[key];
-  }
-};
+function render() {
+  router = new VueRouter({
+    base: window.__POWERED_BY_QIANKUN__ ? '/app1' : '/',
+    mode: 'hash',
+    routes
+  });
 
-const _vm = new Proxy(vm, handler);
-console.log(_vm);
-_vm.$mount('#app');
+  instance = new Vue({
+    router,
+    store,
+    render: (h) => h(App)
+  }).$mount('#app');
+}
+
+if (!window.__POWERED_BY_QIANKUN__) {
+  render();
+}
+
+export async function bootstrap() {
+  console.log('vue app bootstraped');
+}
+
+export async function mount(props) {
+  console.log('props from main app', props);
+  render();
+}
+
+export async function unmount() {
+  instance.$destroy();
+  instance = null;
+  router = null;
+}
