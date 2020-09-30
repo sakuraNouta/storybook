@@ -88,7 +88,7 @@ export default {
         memo = e.clientY;
       };
 
-      const throttleHandleMousemove = _.throttle(handleMousemove, 20, {
+      const throttleHandleMousemove = _.throttle(handleMousemove, 30, {
         trailing: false
       });
 
