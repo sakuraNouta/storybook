@@ -10,7 +10,7 @@ export default {
   },
 
   render(h, { props: { label, options }, data }) {
-    const genOptions = function(_options) {
+    const genOptions = function (_options) {
       return _options.map(option => {
         const { value, label } = option;
         return h('el-radio', { props: { label: value } }, label);

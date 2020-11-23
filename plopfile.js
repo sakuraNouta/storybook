@@ -8,4 +8,8 @@ module.exports = plop => {
     'common-table',
     require('./src/views/common-table/template')(path)
   );
+  plop.setGenerator(
+    'common-form',
+    require('./src/views/common-form/templates')(path)
+  );
 };

@@ -1,0 +1,92 @@
+<template>
+  <div class="{{> cssClassName}}">
+    <div class="{{> cssClassName}}__header">
+      <div class="{{> cssClassName}}__search">
+        <el-input v-model="name" size="small" placeholder="搜索租户名称">
+          <i
+            slot="suffix"
+            class="el-input__icon el-icon-search"
+            @click="query"
+          ></i>
+        </el-input>
+      </div>
+    </div>
+    <div class="{{> cssClassName}}__content">
+      <el-table :data="data" v-loading="loading">
+        <el-table-column
+          v-for="column in columns"
+          :key="column.key"
+          :label="column.label"
+          :prop="column.key"
+        ></el-table-column>
+      </el-table>
+    </div>
+    <div class="{{> cssClassName}}__footer">
+      <el-pagination
+        small
+        layout="prev, pager, next"
+        :total="total"
+        :page-size="size"
+        :current-page.sync="page"
+      ></el-pagination>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      columns: [
+        {
+          key: 'name',
+          label: '租户名'
+        },
+        {
+          key: 'email',
+          label: '邮箱'
+        },
+        {
+          key: 'telephone',
+          label: '联系方式'
+        }
+      ],
+      data: [],
+      total: 0,
+      page: 1,
+      size: 10,
+      name: '',
+      searchKey: '',
+      loading: false
+    };
+  },
+  created() {
+    this.getData();
+  },
+  watch: {
+    page() {
+      this.getData();
+    }
+  },
+  methods: {
+    query() {
+      this.searchKey = this.name;
+      this.page = 1;
+      this.getData();
+    },
+    getData() {
+      this.total = 100;
+      this.data = Array.from({ length: 10 }, () => {
+        const k = Math.floor(Math.random() * 10000);
+        return {
+          name: `name${k}`,
+          email: `${k}@189.com`,
+          telephone: `100${k}`
+        };
+      });
+    }
+  }
+};
+</script>
+
+<style></style>

@@ -29,6 +29,26 @@ export const routes = [
     path: '/form',
     component: () =>
       import(/* webpackChunkName: "form" */ '../views/dynamic-form/demo')
+  },
+  {
+    path: '/scatter',
+    component: () => import('../views/poll-scatter.vue')
+  },
+  {
+    path: '/liquidfill',
+    component: () => import('../views/liquidfill-demo.vue')
+  },
+  {
+    path: '/rc',
+    component: () => import('../views/compile-render.vue')
+  },
+  {
+    path: '/test',
+    component: () => import('../views/test.vue')
+  },
+  {
+    path: '/zebra',
+    component: () => import('../views/zebra-line')
   }
 ];
 

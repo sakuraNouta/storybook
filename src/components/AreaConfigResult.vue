@@ -2,7 +2,7 @@
   <div class="area-config-result">
     <!-- 普通模式 -->
     <div>
-      <span class="basic-form-label" style="vertical-align: top">
+      <span class="basic-form-label" style="vertical-align: top;">
         <span class="star-class not-required">*</span>
         <span class="form-label-name-class">
           {{ lan == 'Cn' ? '结果预览' : 'Result' }}
@@ -92,7 +92,7 @@ import AreaDecode from './AreaDecode';
  * @template 待替换模板文件
  * @config 替换键值对
  */
-const genResult = function(template, config) {
+const genResult = function (template, config) {
   let result = _.cloneDeep(template);
   _.forOwn(config, classValue => {
     _.forOwn(classValue, (v, k) => {
@@ -108,7 +108,7 @@ const genResult = function(template, config) {
  * 每项加上"", 以,分隔, 前后加上[]
  * @param value 待转换的数组
  */
-const toViewStr = function(value) {
+const toViewStr = function (value) {
   if (_.isArray(value)) {
     let arr = value.map(i => `"${i}"`);
     return `[${_.join(arr, ',')}]`;
@@ -116,7 +116,7 @@ const toViewStr = function(value) {
   return value;
 };
 
-let string2View = function(result) {
+let string2View = function (result) {
   let isArrayStr = str => /\[.*\]/.test(str);
   let str2Arr = str =>
     str
@@ -131,7 +131,7 @@ let string2View = function(result) {
   return result;
 };
 
-let resultView = function(result, basicInfo) {
+let resultView = function (result, basicInfo) {
   // 返回值处理
   // 全局变量处理
   result = _.mapValues(result, v => {
@@ -168,28 +168,28 @@ export default {
     };
   },
   computed: {
-    configField: function() {
+    configField: function () {
       return _.mapValues(_.omit(this.config, 'basicInfo'), e =>
         _.concat(_.keys(e), _.keys(this.config.basicInfo))
       );
     },
-    viewText: function() {
+    viewText: function () {
       return genResult(this.template, this.config);
     },
-    keepAdvanced: function() {
+    keepAdvanced: function () {
       // return this.$store.state.config.isAdvanced;
       return '';
     }
   },
   methods: {
-    edit: function() {
+    edit: function () {
       // 切换至高级模式时, 赋值editText
       this.editText = this.keepAdvanced
         ? this.editText
         : _.cloneDeep(genResult(this.template, this.config));
       this.isAdvanced = true;
     },
-    close: function(isSave) {
+    close: function (isSave) {
       this.isAdvanced = false;
       if (isSave) {
         this.advViewText = this.editText;
@@ -223,23 +223,23 @@ export default {
         .catch(() => {});
     },
     // 高级回填后的表单非空校验
-    formValidate: function() {
+    formValidate: function () {
       let flag = this.editText != null && this.editText !== '';
       let msg = flag ? '模板不能为空！' : '';
       return { flag, msg };
     },
     // 向后台保存时获取模板字符串
-    getResTemplate: function() {
+    getResTemplate: function () {
       return this.keepAdvanced ? this.advViewText : this.viewText;
     },
-    setResTemplate: function(str) {
+    setResTemplate: function (str) {
       this.advViewText = str;
       this.editText = str;
     }
   },
   watch: {
     // 切换模式
-    isAdvanced: function(newVal) {
+    isAdvanced: function (newVal) {
       this.$emit('updateStatus', 'isEditing', newVal);
     }
   }

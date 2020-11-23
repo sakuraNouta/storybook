@@ -1,3 +1,3 @@
 export function sum(a, b) {
-  return a + b;
+  return _.add(a, b);
 }

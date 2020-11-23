@@ -5,14 +5,16 @@
     <ol v-for="(result, i) in results" :key="i">
       <li v-for="(v, k) in result" :key="k">{{ k }} : {{ v }}</li>
     </ol>
+    <e-download></e-download>
   </div>
 </template>
 
 <script>
-import UploadExcel from '../components/UploadExcel';
+import UploadExcel from '../../components/UploadExcel';
+import EDownload from './download';
 
 export default {
-  components: { UploadExcel },
+  components: { UploadExcel, EDownload },
   data() {
     return {
       results: []

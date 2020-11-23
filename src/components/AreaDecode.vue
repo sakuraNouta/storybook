@@ -29,7 +29,7 @@ import _ from 'lodash';
  * reg: /key\]\][\s\S]*\[/i
  * eg: key]] ... [[
  */
-const findScope = function(resultText, key) {
+const findScope = function (resultText, key) {
   let keyLen = key.length + 2;
   // 非贪婪模式
   let pattern = new RegExp(`${key}\\]\\][\\s\\S]*?\\[\\[`, 'i');
@@ -44,7 +44,7 @@ const findScope = function(resultText, key) {
   }
 };
 
-const findInScope = function(scope, field) {
+const findInScope = function (scope, field) {
   let pattern = new RegExp(`${field}\\s?=.*`, 'i');
   let target = scope.match(pattern);
   if (target) {
@@ -58,7 +58,7 @@ const findInScope = function(scope, field) {
 /**
  * 将生成出的结果, 通过正则表达式分解为字段
  */
-const decode = function(resultText, config) {
+const decode = function (resultText, config) {
   let result = {};
   _.forOwn(config, (fieldList, key) => {
     let item = {};
@@ -86,7 +86,7 @@ export default {
     }
   },
   computed: {
-    field: function() {
+    field: function () {
       return decode(this.resultText, this.config);
     }
   }

@@ -91,7 +91,7 @@ export default {
       const throttleHandleMousemove = _.throttle(handleMousemove, 30, {
         trailing: false
       });
-      console.log("egg")
+      console.log('egg');
 
       const handleMouseup = e => {
         console.log('handleMouseup -> e', e);

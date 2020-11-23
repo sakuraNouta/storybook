@@ -10,7 +10,7 @@ export default {
   },
 
   render(h, { props: { label, options = [] }, data }) {
-    const genOptions = function(_options) {
+    const genOptions = function (_options) {
       return _options.map(({ value, label }) => {
         return h('el-option', {
           props: { key: value, label, value }
