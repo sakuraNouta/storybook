@@ -2,9 +2,18 @@
   <div class="poll-scatter">
     poll-scatter
     <v-chart
+      id="chart1"
       ref="vChart"
       :options="options"
       @brushEnd="handleBrushEnd"
+      @brushSelected="handleBrushSelected"
+    ></v-chart>
+    <v-chart
+      id="chart2"
+      ref="vChart2"
+      :options="options2"
+      @brushEnd="handleBrushEnd"
+      @brushSelected="handleBrushSelected"
     ></v-chart>
   </div>
 </template>
@@ -35,7 +44,7 @@ import 'echarts/lib/component/singleAxis';
 import 'echarts/lib/component/tooltip';
 
 async function pollExecute(target, fetchData) {
-  const from = moment().subtract(200, 'h').unix();
+  const from = moment().subtract(500, 'h').unix();
   let to = moment().unix();
   while (from < to) {
     // 迭代请求, 必须串行
@@ -48,7 +57,7 @@ async function pollExecute(target, fetchData) {
 
 function pollDataSource(to) {
   const mock = () =>
-    Array.from({ length: 600 }, (v, i) => ({
+    Array.from({ length: 2400 }, (v, i) => ({
       t: moment.unix(to).subtract(i, 'm').unix(),
       v: Math.floor(Math.random() * 80)
     }))
@@ -61,7 +70,7 @@ function pollDataSource(to) {
   return new Promise(resolve => {
     setTimeout(() => {
       resolve({
-        to: moment.unix(to).subtract(10, 'h').unix(),
+        to: moment.unix(to).subtract(40, 'h').unix(),
         data: [
           { name: '成功', data: mock() },
           { name: '错误', data: mock() }
@@ -71,128 +80,143 @@ function pollDataSource(to) {
   });
 }
 
+const options = {
+  title: {
+    top: 10,
+    textStyle: {
+      fontSize: 15,
+      fontWeight: 700,
+      fontFamily: 'PingFangSC-Bold'
+    }
+  },
+  grid: {
+    left: 0,
+    right: 20,
+    bottom: 10,
+    containLabel: true,
+    show: true,
+    borderColor: '#F0F0F0'
+  },
+  tooltip: {
+    show: true,
+    showContent: false,
+    axisPointer: {
+      type: 'cross',
+      label: {
+        formatter: params => {
+          if (params.axisDimension === 'x') {
+            return moment.unix(params.value).format('HH:mm');
+          }
+          if (params.axisDimension === 'y') {
+            return _.round(params.value, 2);
+          }
+          return params.value;
+        },
+        backgroundColor: '#333'
+      }
+    }
+  },
+  xAxis: {
+    type: 'time',
+    min: moment().subtract(500, 'h').unix(),
+    max: moment().unix(),
+    axisTick: { show: false },
+    boundaryGap: true,
+    axisLabel: {
+      color: 'black',
+      formatter: v => moment.unix(v).format('MM:DD HH:mm')
+    },
+    axisLine: {
+      onZero: false,
+      lineStyle: {
+        color: '#F0F0F0'
+      }
+    }
+  },
+  yAxis: {
+    type: 'value',
+    nameTextStyle: {
+      color: '#abacb2'
+    },
+    nameGap: 10,
+    axisLine: {
+      lineStyle: {
+        color: '#F0F0F0'
+      }
+    },
+    axisTick: {
+      show: false
+    },
+    min: 0,
+    max: 120,
+    splitNumber: 4,
+    splitLine: {
+      show: true,
+      lineStyle: {
+        type: 'solid',
+        color: '#F0F0F0'
+      }
+    },
+    axisLabel: {
+      color: '#ABACB2'
+    }
+  },
+  brush: {
+    xAxisIndex: 'all',
+    brushLink: 'all',
+    throttleType: 'debounce',
+    throttleDelay: 1000,
+    outOfBrush: {
+      colorAlpha: 0.1
+    }
+  },
+  toolbox: {
+    show: true
+  },
+  series: [
+    {
+      type: 'scatter',
+      symbolSize: 3,
+      name: '成功',
+      progressive: 0,
+      large: true,
+      silent: true
+    },
+    {
+      type: 'scatter',
+      symbolSize: 3,
+      name: '错误',
+      progressive: 0,
+      large: true,
+      silent: true
+    }
+  ]
+};
+
 export default {
   name: 'poll-scatter',
   components: { 'v-chart': Echarts },
   data() {
     return {
       chart: undefined,
-      options: {
-        title: {
-          top: 10,
-          textStyle: {
-            fontSize: 15,
-            fontWeight: 700,
-            fontFamily: 'PingFangSC-Bold'
-          }
-        },
-        grid: {
-          left: 0,
-          right: 20,
-          bottom: 10,
-          containLabel: true,
-          show: true,
-          borderColor: '#F0F0F0'
-        },
-        tooltip: {
-          show: true,
-          showContent: false,
-          axisPointer: {
-            type: 'cross',
-            label: {
-              formatter: params => {
-                console.log(
-                  '🚀 ~ file: poll-scatter.vue ~ line 102 ~ data ~ params',
-                  params
-                );
-                if (params.axisDimension === 'x') {
-                  return moment(params.value).format('HH:mm');
-                }
-                if (params.axisDimension === 'y') {
-                  return _.round(params.value, 2);
-                }
-                return params.value;
-              },
-              backgroundColor: '#333'
-            }
-          }
-        },
+      options,
+      options2: _.merge({}, options, {
+        backgroundColor: 'transparent',
+        grid: { show: false },
         xAxis: {
-          type: 'time',
-          min: moment().subtract(200, 'h').unix(),
-          axisTick: { show: false },
-          boundaryGap: true,
-          axisLabel: { color: 'black' },
-          axisLine: {
-            onZero: false,
-            lineStyle: {
-              color: '#F0F0F0'
-            }
-          }
+          show: false
         },
         yAxis: {
-          type: 'value',
-          nameTextStyle: {
-            color: '#abacb2'
-          },
-          nameGap: 10,
-          axisLine: {
-            lineStyle: {
-              color: '#F0F0F0'
-            }
-          },
-          axisTick: {
-            show: false
-          },
-          // min: 0,
-          max: 120,
-          splitNumber: 4,
-          splitLine: {
-            show: true,
-            lineStyle: {
-              type: 'solid',
-              color: '#F0F0F0'
-            }
-          },
-          axisLabel: {
-            color: '#ABACB2'
-          }
-        },
-        brush: {
-          xAxisIndex: 'all',
-          brushLink: 'all',
-          outOfBrush: {
-            colorAlpha: 0.1
-          }
-        },
-        toolbox: {
-          show: true
-        },
-        series: [
-          {
-            type: 'scatter',
-            symbolSize: 3,
-            name: '成功',
-            progressive: 0,
-            large: true
-          },
-          {
-            type: 'scatter',
-            symbolSize: 3,
-            name: '错误',
-            progressive: 0,
-            large: true
-          }
-        ]
-      }
+          show: false
+        }
+      })
     };
   },
   mounted() {
     this.$nextTick(() => {
       this.poll();
 
-      const vChart = this.$refs.vChart;
-      window.vChart = vChart;
+      const vChart = this.$refs.vChart2;
       vChart.chart.on('brushEnd', params => {
         console.log('brushEnd -> params', params);
         vChart.dispatchAction({
@@ -205,7 +229,7 @@ export default {
   },
   watch: {
     options: function () {
-      console.log(' this.$refs.vChart', this.$refs.vChart);
+      // console.log(' this.$refs.vChart', this.$refs.vChart);
       // this.$nextTick(() => {
       //   this.$refs.vChart.dispatchAction({
       //     type: 'takeGlobalCursor',
@@ -219,6 +243,9 @@ export default {
     }
   },
   methods: {
+    handleBrushSelected(params) {
+      console.log('handleBrushSelected -> params', params);
+    },
     handleBrushEnd(params) {
       console.log('handleBrushEnd -> params', params);
     },
@@ -247,7 +274,7 @@ export default {
         //   }))
         // };
 
-        this.$refs.vChart.dispatchAction({
+        this.$refs.vChart2.dispatchAction({
           type: 'takeGlobalCursor',
           key: 'brush',
           brushOption: {
@@ -267,6 +294,9 @@ export default {
     width: 800px;
     height: 600px;
     padding: 20px;
+  }
+  #chart2 {
+    margin-top: -400px;
   }
 }
 </style>

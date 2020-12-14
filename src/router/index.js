@@ -49,6 +49,10 @@ export const routes = [
   {
     path: '/zebra',
     component: () => import('../views/zebra-line')
+  },
+  {
+    path: '/ddd',
+    component: () => import('../views/ddd/pieddd.vue')
   }
 ];
 
