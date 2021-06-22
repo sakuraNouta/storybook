@@ -4,15 +4,24 @@ import { routes } from './router';
 import store from './store';
 
 import ElementUI from 'element-ui';
-import 'element-ui/lib/theme-chalk/index.css';
+const process = process || {};
+import(
+  `@/assets/styles/themes/${process.env?.VUE_APP_THEME || 'default'}.scss`
+);
+
+import PortalVue from 'portal-vue';
 
 import dialog from './components/Dialog';
 import VueRouter from 'vue-router';
 import './public-path';
+import '@/assets/styles/index.scss';
+import { digitalFlop } from '@jiaminghi/data-view';
 
 Vue.prototype.$dialog = dialog;
 
+Vue.use(digitalFlop);
 Vue.use(ElementUI);
+Vue.use(PortalVue);
 console.log(Vue.prototype);
 
 let router = null;

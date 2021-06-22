@@ -1,5 +1,13 @@
 const path = require('path');
 const { name } = require('./package');
+const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
+  .BundleAnalyzerPlugin;
+const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
+const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
+const smp = new SpeedMeasurePlugin({
+  outputFormat: 'human'
+});
 
 function resolve(dir) {
   return path.join(__dirname, dir);
@@ -34,7 +42,7 @@ module.exports = {
     }
   },
   // 自定义webpack配置
-  configureWebpack: {
+  configureWebpack: smp.wrap({
     resolve: {
       alias: {
         '@': resolve('src')
@@ -45,6 +53,14 @@ module.exports = {
       library: `${name}-[name]`,
       libraryTarget: 'umd',
       jsonpFunction: `webpackJsonp_${name}`
+    },
+    plugins: [new MonacoWebpackPlugin(), new LodashModuleReplacementPlugin()]
+  }),
+  chainWebpack: config => {
+    if (process.env.IS_ANALYZE) {
+      config
+        .plugin('webpack-report')
+        .use(BundleAnalyzerPlugin, [{ analyzerMode: 'static' }]);
     }
   }
 };

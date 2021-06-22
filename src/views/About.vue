@@ -16,6 +16,9 @@ export default {
       $a: 1
     };
   },
+  created() {
+    console.log('about created');
+  },
   methods: {
     onClick() {
       // this.$set(this.dataObj, 'text', 'a text');

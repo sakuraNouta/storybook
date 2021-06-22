@@ -1,0 +1,131 @@
+$background-color-base: #f2f2f2;
+
+$color-rank-1: #ff8800;
+$color-rank-2: #f0ad4e;
+$color-rank-3: #fff201;
+$color-rank-other: #5bc0de;
+
+$color-active-enhance: #4477ee;
+
+$min-width: 1366px;
+
+$font-color-desc: #999;
+
+// layout
+$sidebar-width: 180px;
+$sidebar-collapse-width: 64px;
+$color-sidebar: #545c64;
+$sidebar-title-height: 56px;
+$sidebar-menu-background-color: #545c64;
+$sidebar-menu-text-color: #fff;
+$sidebar-menu-active-text-color: #fff;
+
+$layout-transition-duration: 0.28s;
+$navbar-height: 48px;
+$navbar-padding: 0 10px;
+$navbar-border: 1px solid #ddd;
+$app-main-width: calc(100vw - #{$sidebar-width});
+
+$app-main-scrollbar-width: 10px;
+$app-main-min-width: calc(
+  #{$min-width} - #{$sidebar-width} - #{$app-main-scrollbar-width}
+);
+
+// common-tabs
+$tabs-height: 40px;
+$tabs-background-color: #f8f8f8;
+
+// overview
+$common-font-size: 13px;
+$common-float: float-left;
+$common-boder-radius: 2px;
+$input-height: 32px;
+$border-color: #ebebeb;
+$dark-background: #141929;
+$light-background: #1b2238;
+$place-holder-color: #414a63;
+$overview-navbar-padding: 30px;
+
+// neCenter
+$necenter-x-padding: 20px;
+$necenter-oper-width: calc(
+  100vw - #{$sidebar-width} - 2 * #{$necenter-x-padding}
+);
+$necenter-oper-collapse-width: calc(
+  100vw - #{$sidebar-collapse-width} - 2 * #{$necenter-x-padding}
+);
+
+// alarmRule
+$alarm-rule-footer-height: 60px;
+
+// alarmDetail
+$alarm-detail-header-height: $sidebar-title-height;
+$alarm-detail-header-background-color: #3176b1;
+
+// dtpMonitor
+$monitor-chart-map-header-height: 48px;
+$kpi-selector-item-width: 80px;
+
+//主题颜色
+$theme-color: #409eff;
+$theme-component-color: #409eff;
+$font-color: #000000;
+$font-color-deep: #333;
+$font-color-light: #fffffe;
+$--menu-backgournd-color-base: #f7f8fa;
+
+//抬头高度
+$header-height: 48px;
+// 底部高度
+$footer-height: 48px;
+$tree-node-height: 40px;
+
+//菜单背景底色
+$menu-base: #ebebeb;
+//菜单按钮颜色:
+$menu-buttom-base: #f5f5f5;
+//背景颜色
+$bg-right-main: #f5f8fa;
+
+//蓝色
+$blue-base: #003347;
+$blue-sub: #3a8fb7;
+$blue-hover-sub: #004561;
+// $blue-head:#3176b1;
+$blue-head: #262730;
+//触屏蓝色
+$blue-hover-base: #002443;
+//红色
+$red-base: #ea3a38;
+//触屏红色
+$red-hover-base: #eb5250;
+//灰色
+$gray-base: #e5e5e5;
+//触屏灰色
+$gray-hover-base: #999;
+//全场景字色
+$color-606266: #606266;
+//绿色
+$green-base: #009944;
+//背景
+$bg-color: #f3f3f3;
+//次背景
+$sub-color: #f7f7f7;
+//a连接
+$link-color: #00a0e9;
+//下划线
+$link-hover-color: #fff;
+//禁用
+$disableColor: #d7dbe6;
+$activeColor: #3e9efe;
+
+// 菜单的宽度
+$menu-width: 200px;
+$menu-content-width: $menu-width;
+
+:export {
+  appMainWidth: $app-main-width;
+  sidebarMenuBackgroundColor: $sidebar-menu-background-color;
+  sidebarMenuTextColor: $sidebar-menu-text-color;
+  sidebarMenuActiveTextColor: $sidebar-menu-active-text-color;
+}

@@ -1,40 +1,69 @@
 <template>
   <div class="test">
     <span>Hello World {{ count }}</span>
-    <el-button @click="add">++</el-button>
+    <v-chart :options="options" style="color: red;">
+      helllo 111111111111111111111
+    </v-chart>
   </div>
 </template>
 
 <script>
+import importHTML from 'import-html-entry';
+import Echarts from 'vue-echarts';
+
+import 'echarts';
+
 export default {
   name: 'test',
+  components: { 'v-chart': Echarts },
   data() {
     return {
-      a: 1,
-      b: 2,
-      c: 3
+      count: 0,
+      options: {
+        grid: {
+          top: 0,
+          bottom: 5,
+          left: 0,
+          right: 0
+        },
+        xAxis: {
+          type: 'category',
+          show: false,
+          data: ['36:00']
+        },
+        yAxis: {
+          type: 'value',
+          show: false
+        },
+        series: {
+          type: 'line',
+          symbol: 'circle',
+          symbolSize: 2,
+          smooth: true,
+          lineStyle: {
+            width: 1,
+            color: 'red'
+          },
+          areaStyle: {
+            color: 'red',
+            opacity: 0.12
+          },
+          data: [0]
+        }
+      }
     };
   },
-  computed: {
-    count: {
-      get() {
-        const { a, b, c } = this;
-        return { a, b, c };
-      },
-      set: {
-        handler(count) {
-          console.log(count);
-        },
-        deep: true
-      }
-    }
-  },
-  methods: {
-    add() {
-      this.a += 1;
-      // this.count = this.count;
-      this.count.a = this.a;
-    }
+  created() {
+    importHTML('http://localhost:8082/ptoBo.html').then(res => {
+      console.log(res.template);
+      res.execScripts().then(exports => {
+        const mobx = exports;
+        const { observable } = mobx;
+        observable({
+          name: 'kuitos'
+        });
+      });
+    });
   }
 };
 </script>
