@@ -1,10 +1,10 @@
 <template>
   <div class="about">
-    <h1>This is an about page</h1>
+    <h1 class="colorful">This is an about page</h1>
     <span>{{ dataObj && dataObj.text }}</span>
     <br />
-    <button @click="onClick">click</button>
-    <button @click="onClick2">click2</button>
+    <!-- <button @click="onClick">click</button>
+    <button @click="onClick2">click2</button> -->
   </div>
 </template>
 
@@ -43,3 +43,9 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.colorful {
+  color: var(--primary);
+}
+</style>

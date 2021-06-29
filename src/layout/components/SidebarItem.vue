@@ -2,7 +2,7 @@
  * @Author: chenbing
  * @Date: 2020-08-06 10:32:03
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2020-12-14 10:32:38
+ * @LastEditTime: 2021-06-29 10:52:48
 -->
 <template>
   <div class="sidebar-item" @click="link">
@@ -60,7 +60,7 @@ export default {
 
     &.is-active {
       width: 100%;
-      background-color: $activeColor;
+      background-color: $activeColor !important;
     }
   }
 

@@ -2,6 +2,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Home from '../views/Home.vue';
 import Layout from '@/layout';
+import store from '../store';
 
 Vue.use(VueRouter);
 
@@ -17,20 +18,37 @@ export const routes = [
         meta: { title: 'Home' }
       },
       {
+        path: '/reload',
+        name: 'reload',
+        component: {
+          render() {},
+          created() {
+            const { path, name } = this.$route.query;
+            console.log('redirect', path || { name });
+            this.$router.push(path || { name });
+          }
+        }
+      },
+      {
         path: '/css-tricks',
         name: 'css-tricks',
         component: () => import('../views/css-tricks/index.vue'),
         meta: { title: 'css-tricks' }
       },
       {
-        path: '/about',
-        name: 'about',
-        // route level code-splitting
-        // this generates a separate chunk (about.[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
-        component: () =>
-          import(/* webpackChunkName: "about" */ '../views/About.vue'),
-        meta: { title: 'about' }
+        path: '/aceEditor',
+        component: () => import('../views/editor/ace-editor-demo.vue'),
+        meta: { title: 'ace-editor' }
+      },
+      {
+        path: '/monaco',
+        component: () => import('../views/editor/monaco-editor-demo.vue'),
+        meta: { title: 'monaco' }
+      },
+      {
+        path: '/monaco-raw',
+        component: () => import('../views/editor/monaco-raw.vue'),
+        meta: { title: 'monaco-raw' }
       },
       {
         path: '/excel',
@@ -61,9 +79,9 @@ export const routes = [
         meta: { title: 'rc' }
       },
       {
-        path: '/test',
+        path: '/import-html-entry',
         component: () => import('../views/test.vue'),
-        meta: { title: 'test' }
+        meta: { title: 'import-html-entry' }
       },
       {
         path: '/zebra',
@@ -73,7 +91,7 @@ export const routes = [
       {
         path: '/ddd',
         component: () => import('../views/ddd/pieddd.vue'),
-        meta: { title: 'ddd' }
+        meta: { title: '3d饼图' }
       },
       {
         path: '/portal-vue-demo',
@@ -83,60 +101,45 @@ export const routes = [
       {
         path: '/pie3d',
         component: () => import('../views/echart-pie3d.vue'),
-        meta: { title: 'pie3d' }
+        meta: { title: '3d饼图2' }
       },
       {
-        path: 'treeTable',
+        path: '/treeTable',
         component: () => import('../views/tree-data/el-table-tree.vue'),
         meta: { title: 'treeTable' }
       },
       {
-        path: 'vbtreeTable',
+        path: '/vbtreeTable',
         component: () => import('../views/tree-data/vbt-table.vue'),
         meta: { title: 'vbtreeTable' }
       },
       {
-        path: 'roughviz',
+        path: '/roughviz',
         component: () => import('../views/rough-viz'),
         meta: { title: 'roughviz' }
       },
       {
-        path: 'aceEditor',
-        component: () => import('../views/editor/ace-editor-demo.vue'),
-        meta: { title: 'ace-editor' }
-      },
-      {
-        path: 'monaco',
-        component: () => import('../views/editor/monaco-editor-demo.vue'),
-        meta: { title: 'monaco' }
-      },
-      {
-        path: 'monaco-raw',
-        component: () => import('../views/editor/monaco-raw.vue'),
-        meta: { title: 'monaco-raw' }
-      },
-      {
-        path: 'gantt-chart',
+        path: '/gantt-chart',
         component: () => import('../views/charts/gantt-chart.vue'),
         meta: { title: 'gantt-chart' }
       },
       {
-        path: 'tree-map',
+        path: '/tree-map',
         component: () => import('../views/charts/tree-map.vue'),
         meta: { title: 'tree-map' }
       },
       {
-        path: 'excel-like-table',
+        path: '/excel-like-table',
         component: () => import('../views/ExcelLikeTable.vue'),
         meta: { title: 'excel-like-table' }
       },
       {
-        path: 'carousel',
+        path: '/carousel',
         component: () => import('../views/carousel/element-component.vue'),
         meta: { title: 'carousel' }
       },
       {
-        path: 'data-view/digital',
+        path: '/data-view/digital',
         component: () => import('../views/data-view/digital.vue'),
         meta: { title: 'digital' }
       }
@@ -147,5 +150,14 @@ export const routes = [
 const router = new VueRouter({
   routes
 });
+
+export function routerHook(router) {
+  const convertedPages = new Set();
+  router.afterEach(to => {
+    if (convertedPages.has(to.path)) return;
+    convertedPages.add(to.path);
+    store.dispatch('theme/changeTheme');
+  });
+}
 
 export default router;

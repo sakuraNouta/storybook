@@ -26,6 +26,17 @@ module.exports = {
   outputDir: 'dist',
   assetsDir: 'static',
   filenameHashing: true,
+  // node_modules 下需要babel的文件写入
+  transpileDependencies: [
+    /[/\\]node_modules[/\\]vue-echarts[/\\]/,
+    /[/\\]node_modules[/\\]resize-detector[/\\]/,
+    /[/\\]node_modules[/\\]sys-user-access[/\\]/,
+    /[/\\]node_modules[/\\]normalize-url[/\\]/,
+    /[/\\]node_modules[/\\]prepend-http[/\\]/,
+    /[/\\]node_modules[/\\]sort-keys[/\\]/,
+    /[/\\]node_modules[/\\]element-ui[/\\]src[/\\]utils/,
+    /[/\\]node_modules[/\\]@jiaminghi[/\\]data-view[/\\]lib/
+  ],
   // tweak internal webpack configuration.
   // see https://github.com/vuejs/vue-cli/blob/dev/docs/webpack.md
   devServer: {

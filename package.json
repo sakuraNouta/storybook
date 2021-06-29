@@ -26,6 +26,7 @@
     "element-ui": "^2.13.2",
     "import-html-entry": "^1.11.0",
     "lodash": "^4.17.19",
+    "mockjs": "^1.1.0",
     "monaco-editor": "^0.22.3",
     "portal-vue": "^2.1.7",
     "rollup": "^2.33.1",

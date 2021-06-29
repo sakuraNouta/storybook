@@ -2,7 +2,7 @@
  * @Author: chenbing
  * @Date: 2020-08-06 10:32:03
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-05-10 14:57:27
+ * @LastEditTime: 2021-06-28 17:49:44
 -->
 <template>
   <div class="layout">
@@ -12,23 +12,24 @@
           <span v-show="!isCollapse" class="sidebar__title">Rapunzel</span>
         </transition>
       </div>
-      <el-menu
-        class="sidebar__menu"
-        :default-active="currentRoute"
-        :collapse="isCollapse"
-        :collapse-transition="false"
-        :background-color="variables.sidebarMenuBackgroundColor"
-        :text-color="variables.sidebarMenuTextColor"
-        :active-text-color="variables.sidebarMenuActiveTextColor"
-      >
-        <sidebar-item
-          v-for="route in routes"
-          :key="route.path"
-          :route="route"
-        ></sidebar-item>
-      </el-menu>
+      <el-scrollbar wrap-class="sidebar__wrapper">
+        <el-menu
+          class="sidebar__menu"
+          :default-active="currentRoute"
+          :collapse="isCollapse"
+          :collapse-transition="false"
+          :background-color="variables.sidebarMenuBackgroundColor"
+          :text-color="variables.sidebarMenuTextColor"
+          :active-text-color="variables.sidebarMenuActiveTextColor"
+        >
+          <sidebar-item
+            v-for="route in routes"
+            :key="route.path"
+            :route="route"
+          ></sidebar-item>
+        </el-menu>
+      </el-scrollbar>
     </div>
-
     <div class="main-container">
       <component :is="navbar"></component>
       <div class="app-main">
@@ -65,7 +66,7 @@ export default {
       // return (this.$store.state.routes ?? []).filter(
       //   route => !(route?.meta?.hidden || route?.meta?.single)
       // );
-      return routes[0].children;
+      return routes[0].children.filter(item => item.meta?.title);
     },
     /**
      * 向上查找路由中有侧边栏信息的项
@@ -101,6 +102,13 @@ export default {
     }
   }
 
+  ::v-deep .el-scrollbar {
+    height: calc(100% - #{$sidebar-title-height});
+    &__wrap {
+      overflow-x: hidden;
+    }
+  }
+
   .sidebar {
     &__title-container {
       height: $sidebar-title-height;
@@ -112,8 +120,6 @@ export default {
       font-size: 14px;
     }
     &__menu {
-      height: calc(100% - #{$sidebar-title-height});
-      overflow-y: auto;
       width: 100%;
       transition: width $layout-transition-duration;
     }

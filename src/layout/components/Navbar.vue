@@ -2,8 +2,8 @@
   <div class="navbar">
     <div class="navbar__prefix">
       <div class="navbar__hamburger" @click="toggleSideBar">
-        <i v-show="!isCollapse" class="fi fi-packup-o"></i>
-        <i v-show="isCollapse" class="fi fi-spread-o"></i>
+        <i v-show="!isCollapse" class="el-icon el-icon-s-fold"></i>
+        <i v-show="isCollapse" class="el-icon el-icon-s-unfold"></i>
       </div>
       <slot name="prefix">
         <el-breadcrumb separator="/">

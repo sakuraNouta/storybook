@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import App from './App.vue';
-import { routes } from './router';
+import { routes, routerHook } from './router';
 import store from './store';
 
 import ElementUI from 'element-ui';
@@ -33,6 +33,7 @@ function render() {
     mode: 'hash',
     routes
   });
+  routerHook(router);
 
   instance = new Vue({
     router,
