@@ -24,10 +24,25 @@ export const routes = [
           render() {},
           created() {
             const { path, name } = this.$route.query;
-            console.log('redirect', path || { name });
             this.$router.push(path || { name });
           }
         }
+      },
+      {
+        path: '/gantt-chart',
+        component: () => import('../views/charts/gantt-chart.vue'),
+        meta: { title: 'gantt-chart' }
+      },
+      {
+        path: '/tree-map',
+        component: () => import('../views/charts/tree-map.vue'),
+        meta: { title: 'tree-map' }
+      },
+      {
+        path: '/tree-like-choice',
+        name: 'tree-like-choice',
+        component: () => import('../views/tree-like-choice'),
+        meta: { title: 'tree-like-choice' }
       },
       {
         path: '/css-tricks',
@@ -117,16 +132,6 @@ export const routes = [
         path: '/roughviz',
         component: () => import('../views/rough-viz'),
         meta: { title: 'roughviz' }
-      },
-      {
-        path: '/gantt-chart',
-        component: () => import('../views/charts/gantt-chart.vue'),
-        meta: { title: 'gantt-chart' }
-      },
-      {
-        path: '/tree-map',
-        component: () => import('../views/charts/tree-map.vue'),
-        meta: { title: 'tree-map' }
       },
       {
         path: '/excel-like-table',

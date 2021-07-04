@@ -2,7 +2,7 @@
  * @Author: chenbing
  * @Date: 2020-08-06 10:32:03
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-06-28 17:49:44
+ * @LastEditTime: 2021-06-30 11:38:38
 -->
 <template>
   <div class="layout">
@@ -137,6 +137,9 @@ export default {
   .is-collapse + .main-container {
     width: calc(100% - #{$sidebar-collapse-width});
   }
+}
+.sidebar-item {
+  width: $sidebar-width;
 }
 
 /* fade */
