@@ -16,13 +16,14 @@ import VueRouter from 'vue-router';
 import './public-path';
 import '@/assets/styles/index.scss';
 import { digitalFlop } from '@jiaminghi/data-view';
+import Directives from '@/directives';
 
 Vue.prototype.$dialog = dialog;
 
 Vue.use(digitalFlop);
 Vue.use(ElementUI);
 Vue.use(PortalVue);
-console.log(Vue.prototype);
+Vue.use(Directives);
 
 let router = null;
 let instance = null;
