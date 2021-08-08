@@ -1,16 +1,18 @@
 <template>
   <div class="tree-map">
-    <v-chart class="tree-map__chart" :options="options"></v-chart>
+    <v-chart class="tree-map__chart" :option="options"></v-chart>
   </div>
 </template>
 
 <script>
 import VChart from 'vue-echarts';
-import 'echarts/lib/chart/treemap';
-import 'echarts/lib/component/tooltip';
-import 'echarts/lib/component/title';
+import { use } from 'echarts/core';
 
-// import diskData from './diskData';
+import { CanvasRenderer } from 'echarts/renderers';
+import { TreemapChart } from 'echarts/charts';
+import { TooltipComponent, TitleComponent } from 'echarts/components';
+
+use([CanvasRenderer, TreemapChart, TooltipComponent, TitleComponent]);
 
 const data = Array.from({ length: 10 }, (v, i) => ({
   value: i + 1 * 10,
@@ -60,6 +62,9 @@ export default {
 
 <style lang="scss" scoped>
 .tree-map {
+  width: 800px;
+  height: 400px;
+  margin: 0 auto;
   &__chart {
     margin: auto;
     perspective: 120;

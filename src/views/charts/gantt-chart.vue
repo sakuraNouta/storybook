@@ -1,12 +1,12 @@
 <template>
   <div class="gantt">
-    <v-chart :options="option"></v-chart>
+    <v-chart :option="option"></v-chart>
   </div>
 </template>
 
 <script>
 import vChart from 'vue-echarts';
-import echarts from 'echarts';
+import { graphic } from 'echarts';
 
 export default {
   name: 'gantt',
@@ -57,7 +57,7 @@ export default {
       var end = api.coord([api.value(2), categoryIndex]);
       var height = api.size([0, 1])[1] * 0.6;
 
-      var rectShape = echarts.graphic.clipRectByRect(
+      var rectShape = graphic.clipRectByRect(
         {
           x: start[0],
           y: start[1] - height / 2,
@@ -141,5 +141,8 @@ export default {
 
 <style lang="scss" scoped>
 .gantt {
+  width: 800px;
+  height: 400px;
+  margin: 0 auto;
 }
 </style>

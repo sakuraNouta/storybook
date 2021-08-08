@@ -1,6 +1,6 @@
 <template>
-  <div class="test">
-    <div id="test"></div>
+  <div class="pieddd">
+    <div id="pieddd"></div>
   </div>
 </template>
 
@@ -8,15 +8,15 @@
 import pie from './render';
 
 export default {
-  name: 'test',
+  name: 'pieddd',
   async created() {
     await this.$nextTick();
-    pie('#test');
+    pie('#pieddd');
   }
 };
 </script>
 
 <style lang="scss" scoped>
-.test {
+.pieddd {
 }
 </style>

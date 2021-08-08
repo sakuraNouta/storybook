@@ -11,6 +11,7 @@
 <script>
 import { Random } from 'mockjs';
 import About from './About.vue';
+import { Dialog } from '../components/Dialog';
 
 export default {
   components: { About },
@@ -25,7 +26,7 @@ export default {
       this.$store.dispatch('theme/changeTheme', { primary: Random.color() });
     },
     openDialog() {
-      this.$dialog.info({ content: '消息提示', duration: 2 });
+      Dialog({ msg: '消息提示' });
     }
   }
 };

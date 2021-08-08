@@ -1,6 +1,6 @@
 <template>
-  <el-dialog title="dialog" visible>
-    <h1>dialog</h1>
+  <el-dialog title="dialog" :visible="visible" @close="close">
+    <h1>{{ msg }}</h1>
   </el-dialog>
 </template>
 
@@ -12,12 +12,22 @@ function getUuid() {
 }
 
 export default {
+  props: {
+    msg: {
+      type: String,
+      default: ''
+    }
+  },
   data() {
     return {
+      visible: false,
       notices: []
     };
   },
   methods: {
+    close() {
+      this.reject && this.reject();
+    },
     add(notice) {
       const name = getUuid();
 

@@ -29,9 +29,19 @@ export const routes = [
         }
       },
       {
+        path: 'd3',
+        component: () => import('../views/ddd'),
+        meta: { title: 'd3' }
+      },
+      {
         path: '/gantt-chart',
         component: () => import('../views/charts/gantt-chart.vue'),
         meta: { title: 'gantt-chart' }
+      },
+      {
+        path: '/el',
+        component: () => import('../views/el/index.vue'),
+        meta: { title: 'el' }
       },
       {
         path: '/tree-map',
@@ -55,15 +65,20 @@ export const routes = [
         component: () => import('../views/editor/ace-editor-demo.vue'),
         meta: { title: 'ace-editor' }
       },
-      {
-        path: '/monaco',
-        component: () => import('../views/editor/monaco-editor-demo.vue'),
-        meta: { title: 'monaco' }
-      },
+      // {
+      //   path: '/monaco',
+      //   component: () => import('../views/editor/monaco-editor-demo.vue'),
+      //   meta: { title: 'monaco' }
+      // },
       {
         path: '/monaco-raw',
         component: () => import('../views/editor/monaco-raw.vue'),
         meta: { title: 'monaco-raw' }
+      },
+      {
+        path: 'quill-editor',
+        component: () => import('../views/editor/quill-editor.vue'),
+        meta: { title: 'quill-editor' }
       },
       {
         path: '/excel',
@@ -83,11 +98,11 @@ export const routes = [
         component: () => import('../views/poll-scatter.vue'),
         meta: { title: 'scatter' }
       },
-      {
-        path: '/liquidfill',
-        component: () => import('../views/liquidfill-demo.vue'),
-        meta: { title: 'liquidfill' }
-      },
+      // {
+      //   path: '/liquidfill',
+      //   component: () => import('../views/liquidfill-demo.vue'),
+      //   meta: { title: 'liquidfill' }
+      // },
       {
         path: '/rc',
         component: () => import('../views/compile-render.vue'),
@@ -147,6 +162,11 @@ export const routes = [
         path: '/data-view/digital',
         component: () => import('../views/data-view/digital.vue'),
         meta: { title: 'digital' }
+      },
+      {
+        path: '/composition-demo',
+        component: () => import('../views/composition-demo.vue'),
+        meta: { title: 'composition-demo' }
       }
     ]
   }

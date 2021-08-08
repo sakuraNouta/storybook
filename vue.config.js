@@ -4,10 +4,10 @@ const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin;
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
-const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
-const smp = new SpeedMeasurePlugin({
-  outputFormat: 'human'
-});
+// const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
+// const smp = new SpeedMeasurePlugin({
+//   outputFormat: 'human'
+// });
 
 function resolve(dir) {
   return path.join(__dirname, dir);
@@ -53,7 +53,7 @@ module.exports = {
     }
   },
   // 自定义webpack配置
-  configureWebpack: smp.wrap({
+  configureWebpack: {
     resolve: {
       alias: {
         '@': resolve('src')
@@ -65,13 +65,20 @@ module.exports = {
       libraryTarget: 'umd',
       jsonpFunction: `webpackJsonp_${name}`
     },
-    plugins: [new MonacoWebpackPlugin(), new LodashModuleReplacementPlugin()]
-  }),
+    plugins: [
+      new MonacoWebpackPlugin({
+        languages: ['javascript', 'css', 'html']
+      }),
+      new LodashModuleReplacementPlugin()
+    ]
+  },
   chainWebpack: config => {
     if (process.env.IS_ANALYZE) {
       config
         .plugin('webpack-report')
         .use(BundleAnalyzerPlugin, [{ analyzerMode: 'static' }]);
     }
+    // when there are many pages, it will cause too many meaningless requests
+    config.plugins.delete('prefetch');
   }
 };

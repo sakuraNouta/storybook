@@ -1,47 +1,48 @@
+/*
+ * @Description: 创建通用命令式模态弹出框
+ * @Author: chenbing
+ * @Date: 2021-04-21 16:33:31
+ */
+
 import Vue from 'vue';
+import DialogInstance from './Dialog';
 
-import Dialog from './Dialog.vue';
+/**
+ * 创建模态弹出框
+ * @param {*} component 弹出框组件
+ */
+export function createModalDialog(component) {
+  const constructor = Vue.extend(component);
+  return function (props) {
+    let instance = null;
 
-Dialog.newInstance = properties => {
-  const props = properties || {};
-  const Instance = new Vue({
-    data: props,
-    render(h) {
-      return h(Dialog, {
-        props: props
-      });
-    }
-  });
-  const component = Instance.$mount();
-  document.body.appendChild(component.$el);
-  const dialog = Instance.$children[0];
-  return {
-    add(noticeProps) {
-      dialog.add(noticeProps);
-    },
-    remove(name) {
-      dialog.remove(name);
-    }
+    instance = new constructor({
+      propsData: props,
+      data: {
+        visible: true
+      }
+    });
+    instance.$mount();
+    document.body.appendChild(instance.$el);
+
+    instance.close = () => {
+      // 移除本身
+      document.body.removeChild(instance.$el);
+      // 释放自己所占资源
+      instance.$destroy();
+    };
+
+    return new Promise(resolve => {
+      instance.resolve = function (payload) {
+        resolve(payload);
+        instance && instance.close();
+      };
+
+      instance.reject = function () {
+        instance && instance.close();
+      };
+    });
   };
-};
-
-let messageInstance;
-function getMessageInstance() {
-  messageInstance = messageInstance || Dialog.newInstance();
-  return messageInstance;
-}
-function notice({ duration = 1.5, content = '' }) {
-  // 等待接口调用的时候再实例化组件，避免进入页面就直接挂载到body上
-  let instance = getMessageInstance();
-  instance.add({
-    content: content,
-    duration: duration
-  });
 }
 
-// 对外暴露的方法
-export default {
-  info(options) {
-    return notice(options);
-  }
-};
+export const Dialog = createModalDialog(DialogInstance);

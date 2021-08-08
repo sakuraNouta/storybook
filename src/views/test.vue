@@ -10,8 +10,11 @@
 <script>
 import importHTML from 'import-html-entry';
 import Echarts from 'vue-echarts';
+import { use } from 'echarts/core';
+import { CanvasRenderer } from 'echarts/renderers';
+import { LineChart } from 'echarts/charts';
 
-import 'echarts';
+use([CanvasRenderer, LineChart]);
 
 export default {
   name: 'test',

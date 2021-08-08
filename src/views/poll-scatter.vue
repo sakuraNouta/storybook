@@ -1,54 +1,65 @@
 <template>
   <div class="poll-scatter">
     poll-scatter
-    <v-chart
-      id="chart1"
-      ref="vChart"
-      :options="options"
-      @brushEnd="handleBrushEnd"
-      @brushSelected="handleBrushSelected"
-    ></v-chart>
-    <v-chart
-      id="chart2"
-      ref="vChart2"
-      :options="options2"
-      @brushEnd="handleBrushEnd"
-      @brushSelected="handleBrushSelected"
-    ></v-chart>
+    <div id="chart1">
+      <v-chart ref="vChart" :option="options"></v-chart>
+    </div>
+    <div id="chart2">
+      <v-chart
+        ref="vChart2"
+        :option="options2"
+        @brushEnd="handleBrushEnd"
+        @brushSelected="handleBrushSelected"
+      ></v-chart>
+    </div>
   </div>
 </template>
 
 <script>
 import moment from 'moment';
-// import echarts from 'echarts';
-import Echarts from 'vue-echarts';
 import _ from 'lodash';
+import Echarts from 'vue-echarts';
+import { use } from 'echarts/core';
 
-import 'echarts/lib/chart/bar';
-import 'echarts/lib/chart/line';
-import 'echarts/lib/chart/gauge';
-import 'echarts/lib/chart/pie';
-import 'echarts/lib/chart/heatmap';
-import 'echarts/lib/chart/scatter';
-import 'echarts/lib/chart/effectScatter';
-import 'echarts/lib/component/dataZoom';
-import 'echarts/lib/component/brush';
-import 'echarts/lib/component/markArea';
-import 'echarts/lib/component/markPoint';
-import 'echarts/lib/component/markLine';
-import 'echarts/lib/component/legend';
-import 'echarts/lib/component/legendScroll';
-import 'echarts/lib/component/title';
-import 'echarts/lib/component/visualMap';
-import 'echarts/lib/component/singleAxis';
-import 'echarts/lib/component/tooltip';
+import { CanvasRenderer } from 'echarts/renderers';
+import { ScatterChart, EffectScatterChart } from 'echarts/charts';
+import {
+  DataZoomComponent,
+  BrushComponent,
+  MarkAreaComponent,
+  MarkPointComponent,
+  MarkLineComponent,
+  LegendComponent,
+  LegendScrollComponent,
+  TitleComponent,
+  VisualMapComponent,
+  SingleAxisComponent,
+  TooltipComponent,
+  ToolboxComponent
+} from 'echarts/components';
+
+use([
+  CanvasRenderer,
+  ScatterChart,
+  EffectScatterChart,
+  DataZoomComponent,
+  BrushComponent,
+  MarkAreaComponent,
+  MarkPointComponent,
+  MarkLineComponent,
+  LegendComponent,
+  LegendScrollComponent,
+  TitleComponent,
+  VisualMapComponent,
+  SingleAxisComponent,
+  TooltipComponent,
+  ToolboxComponent
+]);
 
 async function pollExecute(target, fetchData) {
   const from = moment().subtract(500, 'h').unix();
   let to = moment().unix();
   while (from < to) {
-    // 迭代请求, 必须串行
-    // eslint-disable-next-line no-await-in-loop
     const { data, to: _to } = await fetchData(to);
     target(data);
     to = _to;
@@ -171,7 +182,7 @@ const options = {
     }
   },
   toolbox: {
-    show: true
+    show: false
   },
   series: [
     {
@@ -213,34 +224,10 @@ export default {
     };
   },
   mounted() {
-    this.$nextTick(() => {
-      this.poll();
-
-      const vChart = this.$refs.vChart2;
-      vChart.chart.on('brushEnd', params => {
-        console.log('brushEnd -> params', params);
-        vChart.dispatchAction({
-          type: 'brush',
-          areas: []
-        });
-        // refresh();
-      });
-    });
+    this.poll();
   },
   watch: {
-    options: function () {
-      // console.log(' this.$refs.vChart', this.$refs.vChart);
-      // this.$nextTick(() => {
-      //   this.$refs.vChart.dispatchAction({
-      //     type: 'takeGlobalCursor',
-      //     key: 'brush',
-      //     brushOption: {
-      //       brushType: 'rect',
-      //       brushMode: 'single'
-      //     }
-      //   });
-      // });
-    }
+    options: function () {}
   },
   methods: {
     handleBrushSelected(params) {
@@ -248,6 +235,12 @@ export default {
     },
     handleBrushEnd(params) {
       console.log('handleBrushEnd -> params', params);
+      const vChart = this.$refs.vChart2;
+
+      vChart.dispatchAction({
+        type: 'brush',
+        areas: []
+      });
     },
     poll() {
       pollExecute(data => {
@@ -260,19 +253,6 @@ export default {
             ]
           }))
         );
-
-        // setOption(option, notMerge) notMerge = true即不合并
-        // 在两次setOption间进行框选的话, 前一次的框将会无法消失
-        // this.options = {
-        //   ...this.options,
-        //   series: this.options.series.map(item => ({
-        //     ...item,
-        //     data: [
-        //       ...(item.data || []),
-        //       ...data.find(e => e.name === item.name).data
-        //     ]
-        //   }))
-        // };
 
         this.$refs.vChart2.dispatchAction({
           type: 'takeGlobalCursor',
@@ -290,12 +270,17 @@ export default {
 
 <style lang="scss" scoped>
 .poll-scatter {
-  #poll-scatter {
-    width: 800px;
-    height: 600px;
-    padding: 20px;
+  width: 800px;
+  height: 600px;
+  padding: 20px;
+
+  #chart1 {
+    width: 600px;
+    height: 400px;
   }
   #chart2 {
+    width: 600px;
+    height: 400px;
     margin-top: -400px;
   }
 }

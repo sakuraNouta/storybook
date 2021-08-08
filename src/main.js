@@ -2,28 +2,28 @@ import Vue from 'vue';
 import App from './App.vue';
 import { routes, routerHook } from './router';
 import store from './store';
-
 import ElementUI from 'element-ui';
-const process = process || {};
-import(
-  `@/assets/styles/themes/${process.env?.VUE_APP_THEME || 'default'}.scss`
-);
+
+// const process = process || {};
+// import(
+//   `@/assets/styles/themes/${process.env?.VUE_APP_THEME || 'default'}.scss`
+// );
+import '@/assets/styles/themes/default.scss';
 
 import PortalVue from 'portal-vue';
 
-import dialog from './components/Dialog';
 import VueRouter from 'vue-router';
 import './public-path';
 import '@/assets/styles/index.scss';
 import { digitalFlop } from '@jiaminghi/data-view';
 import Directives from '@/directives';
-
-Vue.prototype.$dialog = dialog;
+import VueCompositionAPI from '@vue/composition-api';
 
 Vue.use(digitalFlop);
 Vue.use(ElementUI);
 Vue.use(PortalVue);
 Vue.use(Directives);
+Vue.use(VueCompositionAPI);
 
 let router = null;
 let instance = null;
